@@ -6,8 +6,7 @@ Além da API, o projeto inclui uma interface de front-end minimalista, construí
 
 ### ✨ Demonstração
 
-![Captura de tela da aplicação de tarefas](https://i.imgur.com/uCg0m0z.png)
-*(Uma captura de tela da aplicação web mostrando a lista de tarefas, o formulário para adicionar novas tarefas e os botões de ação.)*
+![Captura de tela da aplicação de tarefas](tela.png)
 
 ---
 
