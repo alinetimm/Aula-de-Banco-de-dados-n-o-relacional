@@ -10,7 +10,7 @@ exports.criarTarefa = async (req, res) => {
 };
 exports.listarTarefas = async (req, res) => {
   try {
-    const tarefas = await Tarefa.find(); // .find() sem argumentos retorna tudo
+    const tarefas = await Tarefa.find(); 
     res.status(200).json({ success: true, count: tarefas.length, data: tarefas });
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro de Servidor' });
@@ -19,8 +19,8 @@ exports.listarTarefas = async (req, res) => {
 exports.atualizarTarefa = async (req, res) => {
   try {
     const tarefa = await Tarefa.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,          // Retorna o documento modificado, e não o original
-      runValidators: true // Roda as validações definidas no Schema (ex: required)
+      new: true,   
+      runValidators: true 
     });
 
     if (!tarefa) {
@@ -40,7 +40,7 @@ exports.deletarTarefa = async (req, res) => {
       return res.status(404).json({ success: false, error: 'Tarefa não encontrada' });
     }
 
-    res.status(200).json({ success: true, data: {} }); // Retorna uma resposta vazia de sucesso
+    res.status(200).json({ success: true, data: {} }); 
   } catch (error) {
     res.status(500).json({ success: false, error: 'Erro de Servidor' });
   }

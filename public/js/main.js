@@ -1,33 +1,25 @@
-// Seleciona os elementos do DOM que vamos usar
 const formTarefa = document.getElementById('form-tarefa');
 const inputTituloTarefa = document.getElementById('titulo-tarefa');
 const listaTarefas = document.getElementById('lista-tarefas');
 
-// Função para renderizar as tarefas na tela
 const renderizarTarefas = (tarefas) => {
-    // Limpa a lista atual para evitar duplicatas
     listaTarefas.innerHTML = '';
 
-    // Se não houver tarefas, exibe uma mensagem
     if (tarefas.length === 0) {
         listaTarefas.innerHTML = '<p class="text-slate-500 text-center">Nenhuma tarefa encontrada.</p>';
         return;
     }
 
-    // Para cada tarefa, cria um elemento HTML
     tarefas.forEach(tarefa => {
         const divTarefa = document.createElement('div');
         
-        // Adiciona classes do Tailwind para estilização
         divTarefa.className = `
             flex items-center justify-between bg-slate-800 p-4 rounded-lg shadow-md 
             transition-all duration-300 ${tarefa.concluida ? 'opacity-50' : ''}
         `;
         
-        // Guarda o ID da tarefa no próprio elemento
         divTarefa.dataset.id = tarefa._id;
 
-        // Define o conteúdo HTML da div da tarefa
         divTarefa.innerHTML = `
             <span class="flex-grow text-lg ${tarefa.concluida ? 'line-through text-slate-500' : ''}">
                 ${tarefa.titulo}
@@ -42,12 +34,10 @@ const renderizarTarefas = (tarefas) => {
             </div>
         `;
         
-        // Adiciona a div da tarefa na lista
         listaTarefas.appendChild(divTarefa);
     });
 };
 
-// Função para buscar as tarefas da API
 const buscarTarefas = async () => {
     try {
         const response = await fetch('/api/tarefas');
@@ -62,7 +52,6 @@ const buscarTarefas = async () => {
     }
 };
 
-// Função para adicionar uma nova tarefa
 const adicionarTarefa = async (event) => {
     event.preventDefault(); // Impede o recarregamento da página
     const titulo = inputTituloTarefa.value.trim();
@@ -79,15 +68,14 @@ const adicionarTarefa = async (event) => {
         });
 
         if (response.status === 201) {
-            inputTituloTarefa.value = ''; // Limpa o campo de input
-            buscarTarefas(); // Atualiza a lista de tarefas
+            inputTituloTarefa.value = ''; 
+            buscarTarefas(); 
         }
     } catch (error) {
         console.error('Erro ao adicionar tarefa:', error);
     }
 };
 
-// Função para lidar com cliques na lista (deleção e atualização)
 const manipularCliqueLista = async (event) => {
     const target = event.target;
     const divTarefa = target.closest('div[data-id]'); // Encontra a div da tarefa pai
@@ -108,7 +96,6 @@ const manipularCliqueLista = async (event) => {
         }
     }
 
-    // Ação para marcar/desmarcar como concluída
     if (acao === 'toggle') {
         try {
             // Primeiro, busca o estado atual da tarefa
@@ -116,7 +103,6 @@ const manipularCliqueLista = async (event) => {
             const { data } = await res.json();
             const tarefaAtual = data.find(t => t._id === idTarefa);
 
-            // Inverte o estado 'concluida'
             const response = await fetch(`/api/tarefas/${idTarefa}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -131,7 +117,6 @@ const manipularCliqueLista = async (event) => {
     }
 };
 
-// Adiciona os "escutadores de eventos"
 document.addEventListener('DOMContentLoaded', buscarTarefas); // Busca as tarefas quando a página carrega
 formTarefa.addEventListener('submit', adicionarTarefa);
 listaTarefas.addEventListener('click', manipularCliqueLista);

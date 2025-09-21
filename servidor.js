@@ -1,6 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/db');
-const tarefaRoutes = require('./routes/tarefas'); // Importa o arquivo de rotas
+const tarefaRoutes = require('./routes/tarefas'); 
 
 const app = express();
 connectDB();
